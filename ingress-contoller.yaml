@@ -1,0 +1,93 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-localhost
+  namespace: default
+  uid: f1e8146d-db9c-494a-82dc-a97031fea338
+  resourceVersion: '3860176'
+  generation: 7
+  creationTimestamp: '2023-10-22T10:43:20Z'
+  labels:
+    k8slens-edit-resource-version: v1
+  managedFields:
+    - manager: kubectl-create
+      operation: Update
+      apiVersion: networking.k8s.io/v1
+      time: '2023-10-22T10:43:20Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          f:ingressClassName: {}
+    - manager: node-fetch
+      operation: Update
+      apiVersion: networking.k8s.io/v1
+      time: '2023-10-22T15:12:56Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:labels:
+            .: {}
+            f:k8slens-edit-resource-version: {}
+        f:spec:
+          f:rules: {}
+    - manager: nginx-ingress-controller
+      operation: Update
+      apiVersion: networking.k8s.io/v1
+      time: '2023-10-30T08:21:23Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:status:
+          f:loadBalancer:
+            f:ingress: {}
+      subresource: status
+  selfLink: /apis/networking.k8s.io/v1/namespaces/default/ingresses/demo-localhost
+status:
+  loadBalancer:
+    ingress:
+      - hostname: >-
+          ae8015925a7ce4e8aad7645b58f6a26e-7eb833e710fe847d.elb.us-east-1.amazonaws.com
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: demo.localdev.me
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: redisinsight-service
+                port:
+                  number: 80
+    - host: redisinsight-service
+      http:
+        paths:
+          - path: /redis
+            pathType: Prefix
+            backend:
+              service:
+                name: redisinsight-service
+                port:
+                  number: 8001
+    - host: >-
+        ae8015925a7ce4e8aad7645b58f6a26e-7eb833e710fe847d.elb.us-east-1.amazonaws.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: redisinsight-external
+                port:
+                  number: 8001
+    - host: >-
+        ae8015925a7ce4e8aad7645b58f6a26e-7eb833e710fe847d.elb.us-east-1.amazonaws.com
+      http:
+        paths:
+          - path: /redis
+            pathType: Prefix
+            backend:
+              service:
+                name: redis-master
+                port:
+                  number: 5004
